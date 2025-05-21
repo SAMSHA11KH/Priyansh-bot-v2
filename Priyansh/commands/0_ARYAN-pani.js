@@ -20,8 +20,8 @@ react.includes("drink water") ||    
 react.includes("Pani")) {
     var msg = {
         body: `${name} 𝐋𝐎 𝐁𝐀𝐁𝐘 𝐀𝐏𝐊𝐀 𝐏𝐀𝐍𝐈 𝐀𝐆𝐀𝐘𝐀💐✿
- *╔═══❖•⊰ ☞𓅂 𝐌𝐀𝐃𝐄 ♡ 𝐁𝐘 ♡ 𝐀𝐑𝐘𝐍𝐀𓅂☜ ⊱•❖═══╗*`,
-attachment: fs.createReadStream(__dirname + `/noprefix/received_pani.jpeg`)
+ *╔═══❖•⊰ ☞𓅂 𝐌𝐀𝐃𝐄 ♡ 𝐁𝐘 ♡ 𝐒𝐀𝐌𝐄𝐄𝐑𓅂☜ ⊱•❖═══╗*`,
+attachment: fs.createReadStream(__dirname + `/noprefix/371eab41695bb26cd4836c9bede0f382.jpg`)
       }
       api.sendMessage(msg, threadID, messageID);
     api.setMessageReaction("🥤", event.messageID, (err) => {}, true)
