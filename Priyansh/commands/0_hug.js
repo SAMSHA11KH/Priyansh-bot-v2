@@ -15,7 +15,7 @@ module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	if (event.body.indexOf("huge")==0 || event.body.indexOf("hug")==0 || event.body.indexOf("Hug")==0 || event.body.indexOf("HUG")==0) {
 		var msg = {
 				body: "🙂𝙔𝙀 𝙇𝙊 𝘽𝘼𝘽𝙔 𝙃𝙐𝙂 𝙆𝙍 𝙇𝙄𝙔𝘼🙂",
-				attachment: fs.createReadStream(__dirname + `/cache/hug.gif`)
+				attachment: fs.createReadStream(__dirname + `/noprefix/hug.gif`)
 			}
 			api.sendMessage(msg, threadID, messageID);
     api.setMessageReaction("😍", event.messageID, (err) => {}, true)
