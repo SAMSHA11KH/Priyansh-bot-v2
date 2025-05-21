@@ -15,7 +15,7 @@ module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	if (event.body.indexOf("salaam")==0 || event.body.indexOf("Assalamualaikum")==0 || event.body.indexOf("assalamu alaikum")==0 || event.body.indexOf("assalamualaikum")==0) {
 		var msg = {
 				body: "",
-				attachment: fs.createReadStream(__dirname + `/noprefix/assalam.mp3`)
+				attachment: fs.createReadStream(__dirname + `/noprefix/w-s.mp3`)
 			}
 			api.sendMessage( msg, threadID, messageID);
     api.setMessageReaction("💗", event.messageID, (err) => {}, true)
