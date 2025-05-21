@@ -1,6 +1,6 @@
 const fs = require("fs");
 module.exports.config = {
-  name: "Bryani",
+  name: "Biryani",
     version: "2.1.1",
   hasPermssion: 0,
   credits: "𝐏𝐑𝐈𝐘𝐀𝐍𝐒𝐇𝐈 𝐊𝐀𝐔𝐑", 
@@ -13,7 +13,7 @@ module.exports.handleEvent = async ({ api, event, Users, Currencies, args, utils
   var name = await Users.getNameUser(event.senderID);
   var { threadID, messageID } = event;
   let react = event.body.toLowerCase();
-  if(react.includes("Bryani") ||
+  if(react.includes("Biryani") ||
      react.includes("biryani") || react.includes("bryani") || react.includes("BRYANI") ||
 react.includes("Bryani") ||
 react.includes("BRYANI") ||     
