@@ -1,40 +1,111 @@
-module.exports.config = {
-	name: "upt",
-	version: "1.0.2",
-	hasPermssion: 0,
-	credits: "Mirai Team",
-	description: "Kiểm tra thời gian bot đã online",
-	commandCategory: "system",
-	cooldowns: 5,
-	dependencies: {
-		"pidusage": ""
-	}
+const os = require("os");
+const fs = require("fs-extra");
+
+const startTime = new Date(); // Moved outside onStart
+
+module.exports = {
+  config: {
+    name: "uptime",
+    version: "1.0.0",
+    hasPermssion: 2,
+    credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+    description: "test",
+    commandCategory: "box",
+    usages: "test",
+    dependencies: {},
+    cooldowns: 5
+  },
+
+  run: async function ({ api, event, args }) {
+    try {
+      const uptimeInSeconds = (new Date() - startTime) / 1000;
+
+      const seconds = uptimeInSeconds;
+      const days = Math.floor(seconds / (3600 * 24));
+      const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secondsLeft = Math.floor(seconds % 60);
+      const uptimeFormatted = `${days}d ${hours}h ${minutes}m ${secondsLeft}s`;
+
+      const loadAverage = os.loadavg();
+      const cpuUsage =
+        os
+          .cpus()
+          .map((cpu) => cpu.times.user)
+          .reduce((acc, curr) => acc + curr) / os.cpus().length;
+
+      const totalMemoryGB = os.totalmem() / 1024 ** 3;
+      const freeMemoryGB = os.freemem() / 1024 ** 3;
+      const usedMemoryGB = totalMemoryGB - freeMemoryGB;
+
+     // const allUsers = await usersData.getAll();
+     // const allThreads = await threadsData.getAll();
+      const currentDate = new Date();
+      const options = { year: "numeric", month: "numeric", day: "numeric" };
+      const date = currentDate.toLocaleDateString("en-US", options);
+      const time = currentDate.toLocaleTimeString("en-US", {
+        timeZone: "Asia/Kolkata",
+        hour12: true,
+      });
+
+      const timeStart = Date.now();
+      await api.sendMessage({
+        body: "🔎| checking........",
+      }, event.threadID);
+
+      const ping = Date.now() - timeStart;
+
+      let pingStatus = "⛔| 𝖡𝖺𝖽 𝖲𝗒𝗌𝗍𝖾𝗆";
+      if (ping < 1000) {
+        pingStatus = "✅| 𝖲𝗆𝗈𝗈𝗍𝗁 𝖲𝗒𝗌𝗍𝖾𝗆";
+      }
+      const systemInfo = `♡   ∩_∩
+ （„• ֊ •„)♡
+╭─∪∪────────────⟡
+│ 𝗨𝗣𝗧𝗜𝗠𝗘 𝗜𝗡𝗙𝗢
+├───────────────⟡
+│ ⏰ 𝗥𝗨𝗡𝗧𝗜𝗠𝗘
+│  ${uptimeFormatted}
+├───────────────⟡
+│ 👑 𝗦𝗬𝗦𝗧𝗘𝗠 𝗜𝗡𝗙𝗢
+│𝙾𝚂: ${os.type()} ${os.arch()}
+│𝙻𝙰𝙽𝙶 𝚅𝙴𝚁: ${process.version}
+│𝙲𝙿𝚄 𝙼𝙾𝙳𝙴𝙻: ${os.cpus()[0].model}
+│𝚂𝚃𝙾𝚁𝙰𝙶𝙴: ${usedMemoryGB.toFixed(2)} GB / ${totalMemoryGB.toFixed(2)} GB
+│𝙲𝙿𝚄 𝚄𝚂𝙰𝙶𝙴: ${cpuUsage.toFixed(1)}%
+│𝚁𝙰𝙼 𝚄𝚂𝙶𝙴: ${process.memoryUsage().heapUsed / 1024 / 1024} MB;
+├───────────────⟡
+│ ✅ 𝗢𝗧𝗛𝗘𝗥 𝗜𝗡𝗙𝗢
+│𝙳𝙰𝚃𝙴: ${date}
+│𝚃𝙸𝙼𝙴: ${time}
+│𝙿𝙸𝙽𝙶: ${ping}𝚖𝚜
+│𝚂𝚃𝙰𝚃𝚄𝚂: ${pingStatus}
+╰───────────────⟡
+`;
+
+      api.sendMessage(
+        {
+          body: systemInfo,
+        },
+        event.threadID,
+        (err, messageInfo) => {
+          if (err) {
+            console.error("Error sending message with attachment:", err);
+          } else {
+            console.log(
+              "Message with attachment sent successfully:",
+              messageInfo,
+            );
+          }
+        },
+      );
+    } catch (error) {
+      console.error("Error retrieving system information:", error);
+      api.sendMessage(
+        "Unable to retrieve system information.",
+        event.threadID,
+        event.messageID,
+      );
+    }
+  },
 };
-
-function byte2mb(bytes) {
-	const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-	let l = 0, n = parseInt(bytes, 10) || 0;
-	while (n >= 1024 && ++l) n = n / 1024;
-	return `${n.toFixed(n < 10 && l > 0 ? 1 : 0)} ${units[l]}`;
-}
-
-module.exports.languages = {
-	"vi": {
-		"returnResult": "Bot đã hoạt động được %1 giờ %2 phút %3 giây.\n\n❯ Tổng người dùng: %4\n❯ Tổng Nhóm: %5\n❯ Cpu đang sử dụng: %6%\n❯ Ram đang sử dụng: %7\n❯ Ping: %8ms\n\n=== This bot was made by CatalizCS and SpermLord ==="
-	},
-	"en": {
-		"returnResult": "🥀𝐁𝐎𝐓 𝐇𝐀𝐒 𝐁𝐄𝐄𝐍 𝐖𝐎𝐑𝐊𝐈𝐍𝐆 𝐅𝐎𝐑 %1 hour(s) %2 minute(s) %3 second(s).\n\n❯ 🥀𝐓𝐎𝐓𝐀𝐋 𝐔𝐒𝐄𝐑 𝐌𝐄𝐑𝐈 𝐉𝐀𝐀𝐍🥀: %4\n❯ 🥀𝐓𝐎𝐓𝐀𝐋 𝐓𝐇𝐑𝐄𝐀𝐃🥀: %5\n❯ 🥀𝐂𝐏𝐔 𝐔𝐒𝐀𝐆𝐄🥀: %6%\n❯ 🥀𝐑𝐀𝐌 𝐔𝐒𝐀𝐆𝐄🥀: %7\n❯ 🥀𝐏𝐈𝐍𝐆🥀: %8ms\n\n=== 🥀𝐓𝐇𝐈𝐒 𝐁𝐎𝐓 𝐖𝐀𝐒 𝐌𝐀𝐃𝐄 𝐁𝐘 𝐌𝐑.𝐋𝐄𝐆𝐄𝐍𝐃 𝐀𝐑𝐘𝐀𝐍🥀 ==="
-	}
-}
-
-module.exports.run = async ({ api, event, getText }) => {
-	const time = process.uptime(),
-		hours = Math.floor(time / (60 * 60)),
-		minutes = Math.floor((time % (60 * 60)) / 60),
-		seconds = Math.floor(time % 60);
-
-	const pidusage = await global.nodemodule["pidusage"](process.pid);
-
-	const timeStart = Date.now();
-	return api.sendMessage("", event.threadID, () => api.sendMessage(getText("returnResult", hours, minutes, seconds, global.data.allUserID.length, global.data.allThreadID.length, pidusage.cpu.toFixed(1), byte2mb(pidusage.memory), Date.now() - timeStart), event.threadID, event.messageID));
-} 
