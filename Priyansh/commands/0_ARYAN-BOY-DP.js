@@ -1,11 +1,11 @@
 module.exports.config = {
-  name: "boy sad dp",
+  name: "Boydp",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "ARYAN",
   description: "boys sad dp",
   commandCategory: "Random-IMG",
-  usages: "boy sad dp",
+  usages: "Boy dp",
   cooldowns: 2,
   dependencies: {
     "request":"",
