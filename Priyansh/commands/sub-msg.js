@@ -12,9 +12,9 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	var { threadID, messageID } = event;
-	if (event.body.indexOf("Priyansh rajput")==0 || event.body.indexOf("Sub")==0 || event.body.indexOf("Subscribe")==0 || event.body.indexOf("Priyansh")==0) {
+	if (event.body.indexOf("Sameer khan")==0 || event.body.indexOf("Sub")==0 || event.body.indexOf("Sameer")==0 || event.body.indexOf("SAMEER")==0) {
 		var msg = {
-				body: "👋For Any Kind Of Help Contact On Telegram  Username 👉 @Priyanshrajput😇",
+				body: "👋For Any Kind Of Help Contact On Telegram  Username 👉 @SAmeerKhAan😇",
 				attachment: fs.createReadStream(__dirname + `/noprefix/sub.mp3`)
 			}
 			api.sendMessage(msg, threadID, messageID);
