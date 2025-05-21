@@ -23,7 +23,7 @@ module.exports.onLoad = async() => {
   const dirMaterial = __dirname + `/cache/canvas/`;
   const path = resolve(__dirname, 'cache/canvas', 'dpz3.png');
   if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
-  if (!existsSync(path)) await downloadFile("https://i.postimg.cc/26WLwd37/dpz3.jpg", path);
+  if (!existsSync(path)) await downloadFile("https://i.postimg.cc/W3QZQSGh/dpz3.png", path);
 }
 
 async function makeImage({ one, two }) {
